@@ -1,0 +1,17 @@
+{
+  "pixData": [
+    {
+      "productId": 1,
+      "productName": "iPhone 7",
+      "price": 89900,
+      "installments": [
+        {
+          "plan": 1,
+          "value": 89900,
+          "pixCode": "COLE_O_CODIGO_PIX_AQUI",
+          "qrCode": "COLE_A_IMAGEM_BASE64_DO_QRCODE_AQUI"
+        }
+      ]
+    }
+  ]
+}
