@@ -3,9 +3,8 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = process.cwd();
 const app = express();
 const httpServer = createServer(app);
 
@@ -98,7 +97,8 @@ app.use((req, res, next) => {
       reusePort: true,
     },
     () => {
-      log(`serving on port ${port}`);
+      log(`🚀 Adilson Store is running on port ${port}`);
+      log(`Environment: ${process.env.NODE_ENV || "development"}`);
     },
   );
 })();
