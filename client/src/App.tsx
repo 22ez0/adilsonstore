@@ -9,6 +9,7 @@ import ProductDetails from "@/pages/ProductDetails";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Warranty from "@/pages/Warranty";
+import Category from "@/pages/Category";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/product/:id" component={ProductDetails} />
+      <Route path="/category/:type" component={Category} />
       <Route path="/cart" component={Cart} />
       <Route path="/checkout/:productId" component={Checkout} />
       <Route path="/warranty" component={Warranty} />
