@@ -114,28 +114,33 @@ export default function ProductDetails() {
               <p className="text-slate-500 text-lg leading-relaxed">{product.description}</p>
             </div>
 
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border-2 border-blue-200">
               <p className="text-sm text-slate-500 line-through mb-1">
                 De {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price / 100)}
               </p>
               <div className="flex items-end gap-2 mb-4">
-                <span className="text-4xl font-bold text-red-600">{formattedPrice}</span>
+                <span className="text-5xl font-bold text-red-600">{formattedPrice}</span>
                 <span className="text-sm font-medium text-green-600 mb-2">à vista no Pix</span>
               </div>
               
-              <div className="space-y-3 pt-4 border-t border-slate-200">
-                <div className="flex items-center gap-3 text-sm text-slate-600">
-                  <CreditCard className="w-4 h-4 text-blue-500" />
-                  <span>Parcele em até <strong>5x de {formattedInstallment}</strong> no Pix</span>
+              <div className="space-y-3 pt-4 border-t border-blue-200">
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
+                  <CreditCard className="w-5 h-5 text-blue-600" />
+                  <span>Parcele em até <strong className="text-purple-600">5x de {formattedInstallment}</strong> no Pix</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-600">
-                  <Truck className="w-4 h-4 text-green-500" />
-                  <span>Entrega grátis para todo Brasil</span>
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
+                  <Truck className="w-5 h-5 text-green-600" />
+                  <span>Entrega grátis em até 1 hora</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-600">
-                  <Shield className="w-4 h-4 text-purple-500" />
-                  <span>Garantia de 12 meses inclusa</span>
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
+                  <Shield className="w-5 h-5 text-purple-600" />
+                  <span>Garantia 12 meses + Nota Fiscal</span>
                 </div>
+              </div>
+              
+              <div className="mt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
+                <p className="text-sm font-bold text-blue-900">✓ INCLUSO NA COMPRA:</p>
+                <p className="text-xs text-blue-800 mt-1">• Capinha protetora • Carregador original • Nota Fiscal eletrônica • Garantia válida</p>
               </div>
             </div>
 
