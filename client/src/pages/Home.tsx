@@ -99,6 +99,69 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Testimonials - Auto Slide - NO TOPO */}
+        <section id="testimonials" className="py-16 bg-gradient-to-br from-slate-900 to-slate-800">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-display font-bold text-center mb-12 text-white">O que nossos clientes dizem</h2>
+            
+            {feedbacks && feedbacks.length > 0 ? (
+              <div className="w-full max-w-2xl mx-auto">
+                <div className="relative h-72 flex items-center">
+                  {feedbacks.map((feedback, idx) => (
+                    <div
+                      key={feedback.id}
+                      className={`absolute inset-0 transition-all duration-500 transform ${
+                        idx === currentFeedbackIndex
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-95"
+                      }`}
+                    >
+                      <Card className="h-full border-2 border-purple-400/50 bg-gradient-to-br from-slate-800 to-slate-700 shadow-2xl">
+                        <CardContent className="flex flex-col gap-6 p-8 h-full justify-between">
+                          <div>
+                            <div className="flex gap-1 mb-4">
+                              {Array.from({ length: 5 }).map((_, i) => (
+                                <Star 
+                                  key={i} 
+                                  className={`w-4 h-4 ${i < feedback.rating ? "fill-yellow-400 text-yellow-400" : "fill-slate-600 text-slate-600"}`} 
+                                />
+                              ))}
+                            </div>
+                            <p className="text-sm text-slate-100 leading-relaxed font-medium">"{feedback.text}"</p>
+                          </div>
+                          <div className="flex items-center gap-3 pt-4 border-t border-slate-600">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                              {feedback.name.charAt(0)}
+                            </div>
+                            <div>
+                              <p className="font-bold text-white text-sm">{feedback.name}</p>
+                              <p className="text-xs text-slate-400">{feedback.date}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-center gap-2 mt-6">
+                  {feedbacks.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentFeedbackIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        idx === currentFeedbackIndex
+                          ? "bg-purple-500 w-6"
+                          : "bg-slate-600 hover:bg-slate-500"
+                      }`}
+                      data-testid={`feedback-dot-${idx}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
         {/* Benefits Section */}
         <section className="py-16 bg-white border-b">
           <div className="container mx-auto px-4">
@@ -156,68 +219,6 @@ export default function Home() {
           )}
         </section>
 
-        {/* Testimonials - Auto Slide */}
-        <section id="testimonials" className="py-20 bg-gradient-to-br from-slate-900 to-slate-800">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-display font-bold text-center mb-16 text-white">O que nossos clientes dizem</h2>
-            
-            {feedbacks && feedbacks.length > 0 ? (
-              <div className="w-full max-w-3xl mx-auto">
-                <div className="relative h-80 flex items-center">
-                  {feedbacks.map((feedback, idx) => (
-                    <div
-                      key={feedback.id}
-                      className={`absolute inset-0 transition-all duration-500 transform ${
-                        idx === currentFeedbackIndex
-                          ? "opacity-100 scale-100"
-                          : "opacity-0 scale-95"
-                      }`}
-                    >
-                      <Card className="h-full border-2 border-purple-400/50 bg-gradient-to-br from-slate-800 to-slate-700 shadow-2xl">
-                        <CardContent className="flex flex-col gap-6 p-10 h-full justify-between">
-                          <div>
-                            <div className="flex gap-1 mb-4">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star 
-                                  key={i} 
-                                  className={`w-5 h-5 ${i < feedback.rating ? "fill-yellow-400 text-yellow-400" : "fill-slate-600 text-slate-600"}`} 
-                                />
-                              ))}
-                            </div>
-                            <p className="text-lg text-slate-100 leading-relaxed font-medium">"{feedback.text}"</p>
-                          </div>
-                          <div className="flex items-center gap-4 pt-4 border-t border-slate-600">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                              {feedback.name.charAt(0)}
-                            </div>
-                            <div>
-                              <p className="font-bold text-white">{feedback.name}</p>
-                              <p className="text-sm text-slate-400">{feedback.date}</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-center gap-2 mt-8">
-                  {feedbacks.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentFeedbackIndex(idx)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        idx === currentFeedbackIndex
-                          ? "bg-purple-500 w-8"
-                          : "bg-slate-600 hover:bg-slate-500"
-                      }`}
-                      data-testid={`feedback-dot-${idx}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </section>
       </main>
 
       <Footer />
