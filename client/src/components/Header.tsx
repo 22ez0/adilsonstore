@@ -14,7 +14,7 @@ export function Header() {
     { label: "Início", href: "/" },
     { label: "iPhones", href: "/category/iphone" },
     { label: "Samsung", href: "/category/samsung" },
-    { label: "Garantia", href: "/warranty" },
+    { label: "Assistência", href: "/warranty" },
   ];
 
   const isActive = (path: string) => location === path;
