@@ -51,8 +51,8 @@ export default function ProductDetails() {
     setLocation(`/checkout/${product.id}`);
   };
 
-  // Preço 30% mais barato (70% do preço original)
-  const discountedPrice = Math.floor(product.price * 0.7);
+  // Preço 51% mais barato (30% + 30% = 49% do preço original)
+  const discountedPrice = Math.floor(product.price * 0.49);
   const formattedPrice = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -114,33 +114,35 @@ export default function ProductDetails() {
               <p className="text-slate-500 text-lg leading-relaxed">{product.description}</p>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border-2 border-blue-200">
+            <div className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl p-8 border-2 border-blue-300 relative overflow-hidden shadow-lg">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400/20 to-purple-400/20 rounded-full -mr-8 -mt-8"></div>
+              
               <p className="text-sm text-slate-500 line-through mb-1">
                 De {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price / 100)}
               </p>
-              <div className="flex items-end gap-2 mb-4">
-                <span className="text-5xl font-bold text-red-600">{formattedPrice}</span>
-                <span className="text-sm font-medium text-green-600 mb-2">à vista no Pix</span>
+              <div className="flex items-end gap-2 mb-6 relative z-10">
+                <span className="text-6xl font-bold bg-gradient-to-r from-red-600 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse">{formattedPrice}</span>
+                <span className="text-sm font-bold text-green-600 mb-2 bg-green-100 px-3 py-1 rounded-full">À VISTA</span>
               </div>
               
-              <div className="space-y-3 pt-4 border-t border-blue-200">
-                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
-                  <CreditCard className="w-5 h-5 text-blue-600" />
-                  <span>Parcele em até <strong className="text-purple-600">5x de {formattedInstallment}</strong> no Pix</span>
+              <div className="space-y-3 pt-6 border-t border-blue-300 relative z-10">
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium bg-gradient-to-r from-blue-50 to-transparent p-3 rounded-lg">
+                  <CreditCard className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <span>Parcele em até <strong className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">5x de {formattedInstallment}</strong></span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
-                  <Truck className="w-5 h-5 text-green-600" />
-                  <span>Entrega grátis em até 1 hora</span>
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium bg-gradient-to-r from-green-50 to-transparent p-3 rounded-lg">
+                  <Truck className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <span><strong>ENTREGA EM ATÉ 2 HORAS</strong> após 1º pagamento</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium">
-                  <Shield className="w-5 h-5 text-purple-600" />
-                  <span>Garantia 12 meses + Nota Fiscal</span>
+                <div className="flex items-center gap-3 text-sm text-slate-700 font-medium bg-gradient-to-r from-purple-50 to-transparent p-3 rounded-lg">
+                  <Shield className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                  <span><strong>GARANTIA 12 MESES</strong> + Nota Fiscal válida</span>
                 </div>
               </div>
               
-              <div className="mt-4 p-3 bg-blue-100 border border-blue-300 rounded-lg">
-                <p className="text-sm font-bold text-blue-900">✓ INCLUSO NA COMPRA:</p>
-                <p className="text-xs text-blue-800 mt-1">• Capinha protetora • Carregador original • Nota Fiscal eletrônica • Garantia válida</p>
+              <div className="mt-6 p-4 bg-gradient-to-r from-blue-100 to-purple-100 border-2 border-blue-300 rounded-lg relative z-10">
+                <p className="text-sm font-bold text-blue-900">✓ 100% INCLUSO NA COMPRA:</p>
+                <p className="text-xs text-blue-800 mt-2 leading-relaxed">• Capinha protetora premium • Carregador original • Nota Fiscal eletrônica • Garantia oficial • Possibilidade de reembolso em 30 dias</p>
               </div>
             </div>
 
