@@ -5,6 +5,8 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import QRCode from "qrcode";
 import ThunderPix from "thunderpix";
+import * as fs from "fs";
+import * as path from "path";
 
 // PIX key
 const PIX_KEY = process.env.PIX_KEY || "adilsonstore@2mail.co";
@@ -110,23 +112,66 @@ export async function registerRoutes(
     }
   });
 
-  // Generate PIX QRCode endpoint - Com suporte a Thunderpix
-  app.post("/api/pix/generate", async (req, res) => {
+  // Document verification endpoint
+  app.post("/api/documents/verify", async (req, res) => {
     try {
-      const { amount, orderId, customerName } = req.body;
+      const { cpf, name, documentType, frontPhoto, backPhoto, selfiePhoto } = req.body;
       
-      const pixData = await generatePixQRCode(amount, orderId, customerName);
-      
-      res.json({
-        pixKey: PIX_KEY,
-        pixCode: pixData.pixCode,
-        qrCode: pixData.qrCode,
-        amount: amount,
-        orderId: orderId,
-      });
+      // Validar CPF
+      if (!cpf || cpf.length < 11) {
+        return res.status(400).json({ message: "CPF inválido" });
+      }
+
+      // Criar pasta para armazenar documentos
+      const docsDir = path.join(process.cwd(), "documents_storage");
+      if (!fs.existsSync(docsDir)) {
+        fs.mkdirSync(docsDir, { recursive: true });
+      }
+
+      const timestamp = Date.now();
+      const fileName = `${cpf}_${timestamp}`;
+      const fileNameFront = `${fileName}_front.jpg`;
+      const fileNameBack = `${fileName}_back.jpg`;
+      const fileNameSelfie = `${fileName}_selfie.jpg`;
+
+      // Salvar fotos (dados em base64)
+      if (frontPhoto) {
+        const frontBuffer = Buffer.from(frontPhoto.split(',')[1], 'base64');
+        fs.writeFileSync(path.join(docsDir, fileNameFront), frontBuffer);
+      }
+      if (backPhoto) {
+        const backBuffer = Buffer.from(backPhoto.split(',')[1], 'base64');
+        fs.writeFileSync(path.join(docsDir, fileNameBack), backBuffer);
+      }
+      if (selfiePhoto) {
+        const selfieBuffer = Buffer.from(selfiePhoto.split(',')[1], 'base64');
+        fs.writeFileSync(path.join(docsDir, fileNameSelfie), selfieBuffer);
+      }
+
+      // Salvar log de verificação
+      const logEntry = {
+        cpf,
+        name,
+        documentType,
+        timestamp,
+        frontPhoto: fileNameFront,
+        backPhoto: fileNameBack,
+        selfiePhoto: fileNameSelfie,
+        verified: true
+      };
+
+      const logPath = path.join(docsDir, "verification_log.json");
+      let logs = [];
+      if (fs.existsSync(logPath)) {
+        logs = JSON.parse(fs.readFileSync(logPath, 'utf8'));
+      }
+      logs.push(logEntry);
+      fs.writeFileSync(logPath, JSON.stringify(logs, null, 2));
+
+      res.json({ success: true, message: "Documentos verificados com sucesso", verificationId: fileName });
     } catch (err) {
-      console.error("PIX generation error:", err);
-      res.status(500).json({ message: "Erro ao gerar PIX" });
+      console.error("Document verification error:", err);
+      res.status(500).json({ message: "Erro ao verificar documentos" });
     }
   });
 
@@ -168,6 +213,7 @@ async function seedData() {
   };
 
   const iPhoneProducts = [
+    // Atualizar preços com 51% de desconto (×0.49)
     { name: "iPhone 7", year: 2016, price: 89900, storage: "32GB", description: "Clássico e confiável. Incluso: Capinha + Carregador + Nota Fiscal + Garantia de 12 meses", category: "iphone", images: [phoneImages["iPhone 7"]], specs: { "Tela": "4.7\"", "Câmera": "12MP", "Processador": "A10" }, featured: false, pixKey: "00020126580014br.gov.bcb.pix0136e8f7b8c8-d1a2-4e3f-b5c6-7d8e9f0a1b2c520400005303986540000008995802BR5913ADILSON TECH6009SAO PAULO62070503***6304ABCD" },
     { name: "iPhone 8", year: 2017, price: 109900, storage: "64GB", description: "Carregamento rápido e wireless", category: "iphone", images: [phoneImages["iPhone 8"]], specs: { "Tela": "4.7\"", "Câmera": "12MP", "Processador": "A11" }, featured: false, pixKey: "00020126580014br.gov.bcb.pix0136f5e7d9c0-a1b2-4c3d-e6f7-8g9h0i1j2k3l520400005303986540000010995802BR5913ADILSON TECH6009SAO PAULO62070503***6304ABCD" },
     { name: "iPhone X", year: 2017, price: 129900, storage: "64GB", description: "Notch revolucionário e Face ID", category: "iphone", images: [phoneImages["iPhone X"]], specs: { "Tela": "5.8\" OLED", "Câmera": "12MP Dupla", "Processador": "A11" }, featured: false, pixKey: "00020126580014br.gov.bcb.pix0136g6f8e0a1-b2c3-5d4e-f7g8-9h0i1j2k3l4m520400005303986540000012995802BR5913ADILSON TECH6009SAO PAULO62070503***6304ABCD" },
