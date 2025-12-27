@@ -7,7 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import Home from "@/pages/Home";
 import ProductDetails from "@/pages/ProductDetails";
 import Cart from "@/pages/Cart";
-import Checkout from "@/pages/Checkout";
+import CheckoutNew from "@/pages/CheckoutNew";
 import Warranty from "@/pages/Warranty";
 import Category from "@/pages/Category";
 import NotFound from "@/pages/not-found";
@@ -19,7 +19,7 @@ function Router() {
       <Route path="/product/:id" component={ProductDetails} />
       <Route path="/category/:type" component={Category} />
       <Route path="/cart" component={Cart} />
-      <Route path="/checkout/:productId" component={Checkout} />
+      <Route path="/checkout/:productId" component={CheckoutNew} />
       <Route path="/warranty" component={Warranty} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
