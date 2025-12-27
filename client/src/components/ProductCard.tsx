@@ -23,8 +23,8 @@ export function ProductCard({ product }: ProductCardProps) {
     });
   };
 
-  // Preço 30% mais barato (70% do preço original)
-  const discountedPrice = Math.floor(product.price * 0.7);
+  // Preço 51% mais barato (30% + 30% = 49% do preço original)
+  const discountedPrice = Math.floor(product.price * 0.49);
   const formattedPrice = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
