@@ -281,25 +281,23 @@ export default function CheckoutNew() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-sm font-bold text-gray-300 mb-2 block">Telefone</Label>
-                      <Input
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })}
-                        placeholder="Somente números"
-                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-500"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm font-bold text-gray-300 mb-2 block">WhatsApp</Label>
-                      <Input
-                        value={formData.whatsapp}
-                        onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value.replace(/\D/g, '') })}
-                        placeholder="Somente números (opcional)"
-                        className="bg-slate-700 border-slate-600 text-white placeholder-gray-500"
-                      />
-                    </div>
+                  <div>
+                    <Label className="text-sm font-bold text-gray-300 mb-2 block">Telefone</Label>
+                    <Input
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })}
+                      placeholder="(11) 9999-9999"
+                      className="bg-slate-700 border-slate-600 text-white placeholder-gray-500 w-full text-base"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-bold text-gray-300 mb-2 block">WhatsApp (opcional)</Label>
+                    <Input
+                      value={formData.whatsapp}
+                      onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value.replace(/\D/g, '') })}
+                      placeholder="(11) 9999-9999"
+                      className="bg-slate-700 border-slate-600 text-white placeholder-gray-500 w-full text-base"
+                    />
                   </div>
 
                   <div>
