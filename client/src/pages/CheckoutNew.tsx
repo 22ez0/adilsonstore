@@ -31,10 +31,6 @@ export default function CheckoutNew() {
   const [step, setStep] = useState(1);
   const [installments, setInstallments] = useState(1);
   const [cepLoading, setCepLoading] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
-  const [couponDiscount, setCouponDiscount] = useState(0);
-  const [couponLoading, setCouponLoading] = useState(false);
-  const [couponApplied, setCouponApplied] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -54,6 +50,10 @@ export default function CheckoutNew() {
 
   const [paymentProof, setPaymentProof] = useState(null as string | null);
   const [paidConfirmed, setPaidConfirmed] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
 
   if (isLoadingProduct) {
     return <div className="h-screen flex items-center justify-center"><Loader2 className="animate-spin w-6 h-6" /></div>;
